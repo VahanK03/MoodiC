@@ -1,0 +1,11 @@
+body {
+    background-color: black;
+    color: white;
+    height: 100vh;
+    font-family: 'Questrial';
+}
+
+.songs{
+    background-color: black;
+    height: 100vh;
+}
