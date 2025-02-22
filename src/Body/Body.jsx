@@ -6,40 +6,51 @@ import { useEffect, useState } from "react";
 
 const Body = () => {
 
-    // const [weather, setWeather] = useState(null);
-    // const location = useGeoLocation();
-    // const API_KEY = "d028e6f6d559425ba71211943251401";
+    const [weather, setWeather] = useState(null);
+    const API_KEY = "bb9ab5fe580d09dae7e210c0327ee87e";
+    const location = useGeoLocation();
+   
 
-    // useEffect(() => {
-    //     const getWeather = async () => {
-    //         try {
-    //             const URL = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${location.coordinates.lat},${location.coordinates.lng}`;
-    //             const response = await fetch(URL);
-    //             if (!response.ok) {
-    //                 throw new Error(`HTTP error! status: ${response.status}`);
-    //             }
-    //             const data = await response.json();
-    //             setWeather(data);
-    //         } catch (error) {
-    //             console.error('Error fetching weather data:', error);
-    //         }
-    //     };
+    useEffect(() => {
+        const getWeather = async () => {
+            try {
+                console.log("location", location);
+                const URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${location.coordinates.lat}&lon=${location.coordinates.lng}&appid=${API_KEY}`;
+                const response = await fetch(URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setWeather(data);
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+            }
+        };
 
-    //     if (location.loaded) {
-    //         getWeather();
-    //     }
-    // }, [location]);
+        if (location.loaded) {
+            getWeather();
+        }
+    }, [location]);
 
 
+
+    
+    
+    let cityName = weather?.city?.name;
+    let temp = Math.round(weather?.list?.[0]?.main?.temp - 273);
+    let weatherDescription = weather?.list?.[0]?.weather?.[0]?.description;
+
+    
+   
     return(
         <div className="body">
             <div className="weather">
                 <div className="weather-info">
-                    <h2 className="weather-location">Yerevan</h2>
-                    <h2 className="weather-temp">5°C</h2>
+                    <h2 className="weather-location">{cityName}</h2>
+                    <h2 className="weather-temp">{temp}°C</h2>
                     </div>
                 <div className="weather-icon">
-                <p className="weather-description">Cloudly</p>
+                <p className="weather-description">{weatherDescription}</p>
                 <img src="assets/cloudsun.png" alt="Sun" className="sun" />
                 </div>
             </div>
@@ -56,7 +67,9 @@ const Body = () => {
                 <img src="assets/wheather.gif" alt="Cloud and Sun" className="wheather" />
 
             </div>
-            <Playlist />
+           {weatherDescription && <Playlist weatherDescription={weatherDescription} />}
+
+          
 
         </div>
     )

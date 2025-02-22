@@ -1,5 +1,5 @@
 // FileName: App.js
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Player from "./components/PlayerSong";
 import Song from "./components/Song";
 import "./styles/app.scss";
@@ -8,9 +8,23 @@ import "./styles/app.scss";
 import data from "./data";
 import Library from "./components/Library";
 import Nav from "./components/Navb";
-function Playlist() {
-  const [songs, setSongs] = useState(data());
-  const [currentSong, setCurrentSong] = useState(songs[0]);
+import { useMemo } from "react";
+
+  function Playlist({ weatherDescription }) {
+  const [songs, setSongs] = useState(data);
+
+  
+
+  const filteredSongs = songs.filter((song) => song?.weatherDescription == "light snow");
+
+ console.log(weatherDescription);
+console.log(filteredSongs);
+  const [currentSong, setCurrentSong] = useState(filteredSongs[0]);
+
+  useEffect(() => {
+    setCurrentSong(filteredSongs[0]);
+  }, [filteredSongs]);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [libraryStatus, setLibraryStatus] = useState(false);
   const audioRef = useRef(null);
@@ -19,34 +33,33 @@ function Playlist() {
     duration: 0,
     animationPercentage: 0,
   });
+
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
-    //calculating percentage
     const roundedCurrent = Math.round(current);
     const roundedDuration = Math.round(duration);
     const animation = Math.round((roundedCurrent / roundedDuration) * 100);
-    console.log();
     setSongInfo({
       currentTime: current,
       duration,
       animationPercentage: animation,
     });
   };
+
   const songEndHandler = async () => {
-    let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
-
-    await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
-
+    let currentIndex = filteredSongs.findIndex((song) => song.id === currentSong.id);
+    await setCurrentSong(filteredSongs[(currentIndex + 1) % filteredSongs.length]);
     if (isPlaying) audioRef.current.play();
   };
+
   return (
     <div className="playlist">
       <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
-      <Song currentSong={currentSong} />
+      {currentSong && <Song currentSong={currentSong} />}
       <Player
-        id={songs.id}
-        songs={songs}
+        id={filteredSongs.id}
+        songs={filteredSongs}
         songInfo={songInfo}
         setSongInfo={setSongInfo}
         audioRef={audioRef}
@@ -62,13 +75,14 @@ function Playlist() {
         setSongs={setSongs}
         isPlaying={isPlaying}
         audioRef={audioRef}
-        songs={songs}
+        songs={filteredSongs}
         setCurrentSong={setCurrentSong}
+        weatherDescription={weatherDescription}
       />
       <audio
         onLoadedMetadata={timeUpdateHandler}
         onTimeUpdate={timeUpdateHandler}
-        src={currentSong.audio}
+        src={currentSong?.audio}
         ref={audioRef}
         onEnded={songEndHandler}
       ></audio>

@@ -11,6 +11,7 @@ const Library = ({
     setSongs,
     setLibraryStatus,
     libraryStatus,
+    weatherDescription
 }) => {
 
     const monthNames = [
@@ -23,7 +24,7 @@ const Library = ({
 
     return (
         <div className={`library ${libraryStatus ? "active" : ""}`}>
-            <h2 style={{ color: "white" }}>Chart of {monthName}</h2>
+            <h2 style={{ color: "white" }}>Playlist for <span className="weather-text">{weatherDescription}</span></h2>
             <div className="library-songs">
                 {songs.map((song) => (
                     <LibrarySong

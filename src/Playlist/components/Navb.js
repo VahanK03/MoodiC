@@ -10,7 +10,7 @@ const Nav = ({ setLibraryStatus, libraryStatus }) => {
                     setLibraryStatus(!libraryStatus);
                 }}
             >
-                <h4>Chart 🔥</h4>
+                <h4>Playlist</h4>
             </button>
         </nav>
     );
