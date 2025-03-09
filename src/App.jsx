@@ -1,11 +1,8 @@
 import React from 'react';
 import './App.css';
 import Header from './Header/Header';
-import SongSlider from './SongSlider/SongSlider';
-import SongChart from './SongChart/SongChart';
 import Footer from './Footer/Footer';
 import Body from './Body/Body';
-import Playlist from './Playlist/App';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Songs from './Routes/Songs/song';
 

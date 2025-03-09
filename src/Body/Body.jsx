@@ -1,4 +1,3 @@
-import react from "react";
 import "./Body.css";
 import Playlist from "../Playlist/App";
 import useGeoLocation from "../useGeoLocation";

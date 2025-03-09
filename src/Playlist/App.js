@@ -8,14 +8,13 @@ import "./styles/app.scss";
 import data from "./data";
 import Library from "./components/Library";
 import Nav from "./components/Navb";
-import { useMemo } from "react";
 
   function Playlist({ weatherDescription }) {
   const [songs, setSongs] = useState(data);
 
   
 
-  const filteredSongs = songs.filter((song) => song?.weatherDescription == "light snow");
+  const filteredSongs = songs.filter((song) => song?.weatherDescription === "light snow");
 
  console.log(weatherDescription);
 console.log(filteredSongs);

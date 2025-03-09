@@ -1,4 +1,3 @@
-import react from "react";
 import "./Login.css";
 
 const LoginModal = ({ show, closeModal }) => {

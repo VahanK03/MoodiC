@@ -14,13 +14,13 @@ const Library = ({
     weatherDescription
 }) => {
 
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-      ];
+    // const monthNames = [
+    //     "January", "February", "March", "April", "May", "June",
+    //     "July", "August", "September", "October", "November", "December"
+    //   ];
     
-      const currentMonth = new Date().getMonth(); 
-      const monthName = monthNames[currentMonth];
+    //   const currentMonth = new Date().getMonth(); 
+    //   const monthName = monthNames[currentMonth];
 
     return (
         <div className={`library ${libraryStatus ? "active" : ""}`}>
